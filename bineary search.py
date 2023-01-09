@@ -20,8 +20,8 @@ def bs1(nums, target):
 def bs2(nums, target):
     # find upper bound -> target에 해당하는 값이 nums에 여러개 있을 때
     start = 0
-    end = len(nums)
-    while(start<end):
+    end = len(nums) # upper bound는 찾는 값보다 크다
+    while(start<end): # end가 mid를 그대로 받기 때문에 같은 경우는 포함하지 않는다.
         mid = (start+end)//2
         if(nums[mid]<=target):
             start = mid+1
@@ -36,8 +36,8 @@ def bs2(nums, target):
 def bs3(nums, target):
     # find lower bound -> target에 해당하는 값이 nums에 여러개 있을 때
     start = 0
-    end = len(nums)-1
-    while(start<end):
+    end = len(nums)-1 # lower bound는 찾는 값과 같다.
+    while(start<end): # end가 mid를 그대로 받기 때문에 같은 경우는 포함하지 않는다.
         mid = (start+end)//2
         if(nums[mid]>=target):
             end = mid
