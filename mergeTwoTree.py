@@ -5,7 +5,7 @@
 #         self.left = left
 #         self.right = right
 class Solution(object):
-    def mergeTrees(self, root1, root2): # time : O(n), space : O(n)
+    def mergeTrees(self, root1, root2):
         """
         :type root1: TreeNode
         :type root2: TreeNode
@@ -13,6 +13,8 @@ class Solution(object):
         """
         # 1. root부터 시작해서 왼쪽 자식을 먼저 돈다.
         # 2. 트리의 끝인지 어떻게 확인하지? -> left와 right가 모두 없으면 그 노드는 끝난 것.
+        if root1 == None:
+            return root2
         stack = []
         stack.append((root1, root2))
         while(len(stack)): # 하나의 트리에 집중하는 이 방식은 모든 node를 다 돌 수 있다고 어떻게 장담하는지? -> 다른 트리에 있는 것까지 나한테 다 넘겨줘서 처리하기 때문에 모든 node가 처리된다.
