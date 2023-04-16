@@ -16,29 +16,23 @@ def main(cave_count): # 경로가 주어지지 않고 그래프가 주어진 형
         now_cost, now_nodex, now_nodey = heapq.heappop(q)
         if (now_nodex == cave_count-1) and (now_nodey == cave_count-1):
             return now_cost
+        
         if now_cost > shortest[now_nodex][now_nodey]:
             continue
-        if now_nodex > 0:
-            if shortest[now_nodex-1][now_nodey] > now_cost+graph[now_nodex-1][now_nodey]:
-                shortest[now_nodex-1][now_nodey] = now_cost+graph[now_nodex-1][now_nodey]
-                heapq.heappush(q, (now_cost+graph[now_nodex-1][now_nodey], now_nodex-1,now_nodey))
-        if now_nodex < cave_count-1:
-            if shortest[now_nodex+1][now_nodey] > now_cost+graph[now_nodex+1][now_nodey]:
-                shortest[now_nodex+1][now_nodey] = now_cost+graph[now_nodex+1][now_nodey]
-                heapq.heappush(q, (now_cost+graph[now_nodex+1][now_nodey], now_nodex+1,now_nodey))
-        if now_nodey > 0:
-            if shortest[now_nodex][now_nodey-1] > now_cost+graph[now_nodex][now_nodey-1]:
-                shortest[now_nodex][now_nodey-1] = now_cost+graph[now_nodex][now_nodey-1]
-                heapq.heappush(q, (now_cost+graph[now_nodex][now_nodey-1], now_nodex,now_nodey-1))
-        if now_nodey < cave_count-1:
-            if shortest[now_nodex][now_nodey+1] > now_cost+graph[now_nodex][now_nodey+1]:
-                shortest[now_nodex][now_nodey+1] = now_cost+graph[now_nodex][now_nodey+1]
-                heapq.heappush(q, (now_cost+graph[now_nodex][now_nodey+1], now_nodex,now_nodey+1))        
+        
+        # 먼저 계산해서 그 계산 결과가 0<= x <n 이 되는 것이 훨씬 구현하기 쉬움
+        dx = [1,-1,0,0]
+        dy = [0,0,1,-1]
+        
+        for j in range(4):
+            nx = now_nodex+dx[j]
+            ny = now_nodey+dy[j]
             
-            
-    
-    
-    
+            if 0<=nx<cave_count and 0<=ny<cave_count:
+                if shortest[nx][ny] > now_cost+graph[nx][ny]:
+                    shortest[nx][ny] = now_cost+graph[nx][ny]
+                    heapq.heappush(q, (now_cost+graph[nx][ny], nx, ny))
+                
 if __name__=='__main__':
     cnt = 0
     cave_cnt = int(sys.stdin.readline())
