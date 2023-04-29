@@ -1,5 +1,13 @@
 import sys
-from collections import deque
+import heapq
+
+# 반례
+# 5
+# 10101
+# 01010
+# 10101
+# 01010
+# 10101
 
 def main():
     n = int(sys.stdin.readline())
@@ -11,17 +19,24 @@ def main():
     dx = [-1,1,0,0]
     dy = [0,0,-1,1]
     
-    q = deque()
-    q.append((0,0))
+    q = []
+    heapq.heappush(q, (0,(0,0)))
     
-    visited = []
+    visited = [(0,0)]
     
     house = []
     cnt = 0
     
     while(q):
-        x, y = q.popleft()
-        visited.append((x,y))
+        _, point = heapq.heappop(q)
+        x, y = point
+        
+        if graph[x][y] == 1:
+            cnt += 1
+        else:
+            if cnt != 0:
+                house.append(cnt)
+            cnt = 0
         
         for i in range(4):
             nx = x + dx[i]
@@ -30,14 +45,21 @@ def main():
             if nx < 0 or nx > n-1 or ny < 0 or ny > n-1:
                 continue
             
-            if graph[nx][ny] == 0 or (nx,ny) in visited:
+            if (nx,ny) in visited:
                 continue
             
             if graph[nx][ny] == 1:
-                cnt += 1
-                q.append((nx,ny))
-        if cnt != 0:
-            house.append(cnt)
-            cnt = 0
+                heapq.heappush(q, (0,(nx,ny)))
+            else:
+                heapq.heappush(q, (1,(nx,ny)))
+            visited.append((nx,ny))
+    
+    house.sort()
+    print(len(house))
+    for i in range(len(house)):
+        print(house[i])
+    
+    
+            
 if __name__=='__main__':
     main()
