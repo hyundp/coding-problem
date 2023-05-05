@@ -23,6 +23,9 @@ def main():
         if visited[i] == False:
             dfs(i)
             cnt+=1
+    if cnt == 0:
+        print(1)
+        return
     print(cnt)
     
     
