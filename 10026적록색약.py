@@ -1,5 +1,6 @@
 import sys
 import heapq
+# from queue import PriorityQueue
 
 def main():
     n = int(sys.stdin.readline())
@@ -7,7 +8,9 @@ def main():
     for _ in range(n):
         graph.append(list(map(str, sys.stdin.readline().rstrip())))
     q=[]
-    heapq.heappush(q, (0,(0,0)))
+    heapq.heappush(q, (0,(0,0,0)))
+    # p = PriorityQueue()
+    # p.put((0,(0,0)))
     
     dx = [-1,1,0,0]
     dy = [0,0,-1,1]
@@ -15,10 +18,18 @@ def main():
     result = []
     visited = [[False]*n for _ in range(n)]
     visited[0][0] = True
+    bx,by = 0,0
     cnt = 0
     while(q):
-        pri,(x,y) = heapq.heappop(q)
-        print(pri,x,y,graph[x][y])
+        pri,(_,x,y) = heapq.heappop(q)
+        # pri,(x,y) = p.get()
+        print(x,y,graph[x][y])
+        if graph[x][y] == graph[bx][by]:
+            cnt+=1
+        else:
+            result.append(cnt)
+            cnt = 1
+            
         
         for i in range(4):
             nx = x + dx[i]
@@ -31,15 +42,13 @@ def main():
                 continue
             
             if graph[nx][ny] == graph[x][y]:
-                cnt+=1
-                heapq.heappush(q, (0,(nx,ny)))
+                heapq.heappush(q, (0,(_+1,nx,ny)))
+                # p.put((0,(nx,ny)))
             else:
-                if cnt != 0:
-                    result.append(cnt)
-                cnt = 0
-                heapq.heappush(q, (1,(nx,ny)))
+                heapq.heappush(q, (1,(_+1,nx,ny)))
             visited[nx][ny] = True
-        print(q)
+        bx, by = x,y
+        # print(q)
             
     if cnt != 0:
         result.append(cnt)
