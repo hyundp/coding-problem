@@ -1,29 +1,44 @@
 import sys
 import heapq
 # from queue import PriorityQueue
+import copy
 
 def main():
     n = int(sys.stdin.readline())
     graph = []
+    graph2 = []
     for _ in range(n):
-        graph.append(list(map(str, sys.stdin.readline().rstrip())))
-    q=[]
-    heapq.heappush(q, (0,(0,0,0)))
+        temp = list(map(str, sys.stdin.readline().rstrip()))
+        graph.append(temp)
+        
+        temp2 = copy.deepcopy(temp)
+        for i in range(len(temp2)):
+            if temp2[i] == 'G':
+                temp2[i] = 'R'
+        graph2.append(temp2)
+                
+
     # p = PriorityQueue()
     # p.put((0,(0,0)))
+    normal = bfs(graph,n)
+    weakness = bfs(graph2,n)
     
+    print(normal, weakness)
+        
+def bfs(graph, n):
+    q=[]
+    heapq.heappush(q, (0,(0,0,0)))
     dx = [-1,1,0,0]
     dy = [0,0,-1,1]
-    
-    result = []
     visited = [[False]*n for _ in range(n)]
     visited[0][0] = True
+    result = []
     bx,by = 0,0
     cnt = 0
     while(q):
         pri,(_,x,y) = heapq.heappop(q)
         # pri,(x,y) = p.get()
-        print(x,y,graph[x][y])
+        # print(x,y,graph[x][y])
         if graph[x][y] == graph[bx][by]:
             cnt+=1
         else:
@@ -52,11 +67,9 @@ def main():
             
     if cnt != 0:
         result.append(cnt)
-    print(result)
+    # print(result)
         
-    print(len(result))
-        
-    
+    return (len(result))    
     
 if __name__=='__main__':
     main()
