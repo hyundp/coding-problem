@@ -40,7 +40,7 @@ def main():
         return 1
     
     last = 0
-    r = 1
+    r = 0
     while(r<m):
         result = 0
         g = copy.deepcopy(graph)
