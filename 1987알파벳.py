@@ -1,5 +1,4 @@
 import sys
-import copy
 from string import ascii_uppercase
 sys.setrecursionlimit(10**6) #파이썬 재귀함수 갯수제한 처리 (런타임에러 핸들링)
 
@@ -26,7 +25,7 @@ def main():
         global result
         x,y = cur
         sign = graph[x][y]
-        cur_record = copy.deepcopy(rrecord) # record가 다른 깊이에서 변형되지 않게 함.
+        cur_record = rrecord.copy() # record가 다른 깊이에서 변형되지 않게 함. (1차원 dict deepcopy)
         cur_record[sign] = 1 #visited가 아닌 record로 같은 문자가 있었는지 관리.
         if cnt > result:
             result = cnt
