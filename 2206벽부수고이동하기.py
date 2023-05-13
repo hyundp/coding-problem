@@ -17,21 +17,21 @@ def main():
     shortest = [[[1e6 for _ in range(m)]for _ in range(n)] for _ in range(len(start)+1)]
     
     
-    def bfs(short_):
+    def bfs(s_idx):
         q = []
-        heapq.heappush(q, (0, 0,0)) # heaq로 좌표 넣을 때는 그냥 이렇게 풀어 써도 됨.
+        heapq.heappush(q, (0, 0,0)) # heapq로 좌표 넣을 때는 그냥 이렇게 풀어 써도 됨.
         dx = [-1,1,0,0]
         dy = [0,0,-1,1]
 
-        short_[0][0] = 0
+        shortest[s_idx][0][0] = 0
             
         while(q):
             dist,x,y = heapq.heappop(q)
-            if dist > short_[x][y]:
+            if dist > shortest[s_idx][x][y]:
                 continue
             
             if (x,y) == (n-1,m-1):
-                return short_[n-1][m-1]
+                return shortest[s_idx][n-1][m-1]
             
             for i in range(4):
                 nx = x + dx[i]
@@ -41,20 +41,20 @@ def main():
                     continue
                 
                 if graph[nx][ny] == 0:
-                    if dist+1 < short_[nx][ny]:
-                        short_[nx][ny] = dist+1
-                        heapq.heappush(q, (dist+1,nx,ny))                
-        return short_[n-1][m-1]
+                    if dist+1 < shortest[s_idx][nx][ny]:
+                        shortest[s_idx][nx][ny] = dist+1
+                        heapq.heappush(q, (dist+1,nx,ny))
 
     result = 1e6
     if start == []:
-        short = bfs(shortest[0])
-        if short < result:
-            result = short
+        bfs(0)
+        if shortest[0][n-1][m-1] < result:
+            result = shortest[0][n-1][m-1]
     else:        
         for s in range(len(start)):
             graph[start[s][0]][start[s][1]] = 0 
-            short = bfs(shortest[s])           
+            bfs(s)
+            short = shortest[s][n-1][m-1]         
             if short != 1e6:
                 if short < result:
                     result = short
