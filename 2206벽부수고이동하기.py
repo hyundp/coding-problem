@@ -6,6 +6,7 @@ def main():
     
     n,m = map(int, sys.stdin.readline().split())
     shortest = [[1e6 for _ in range(m)]for _ in range(n)]
+    shortest[0][0] = 0
     graph = []
     start = []
     for k in range(n):
@@ -42,10 +43,15 @@ def main():
                         shortest[nx][ny] = dist+1
                         heapq.heappush(q, (dist+1,nx,ny))
         
-    for s in start:
-        graph[s[0]][s[1]] = 0
+    
+    
+    if start == []:
         bfs()
-        graph[s[0]][s[1]] = 1
+    else:        
+        for s in start:
+            graph[s[0]][s[1]] = 0
+            bfs()
+            graph[s[0]][s[1]] = 1
                 
     
     if shortest[n-1][m-1] == 1e6:
