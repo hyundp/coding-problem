@@ -1,7 +1,7 @@
 import sys
 import heapq
 
-def main(): # O(n*n*n^2logn^2)
+def main(): # O((n^2)*(n^2)*(n^2))
     
     n = int(sys.stdin.readline().rstrip())
     graph=[]
