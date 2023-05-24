@@ -2,8 +2,6 @@ import sys
 
 sys.setrecursionlimit(10**6)
 
-
-cnt = 0
 m,n = map(int, sys.stdin.readline().split())
 visited = [[0 for _ in range(n)]for _ in range(m)]
 
@@ -19,14 +17,7 @@ def main():
         print(1)
         return
     
-    if graph[m-2][n-1] > graph[m-1][n-1]:
-        visited[m-2][n-1] = 1
-    if graph[m-1][n-2] > graph[m-1][n-1]:
-        visited[m-1][n-2] = 1
-    
-    
     def dfs(x,y):
-        global cnt
         global visited
         
         # print(x,y)
@@ -40,14 +31,18 @@ def main():
                 continue
         
             if graph[nx][ny] < graph[x][y]:
-                if visited[nx][ny] != 0:
+                if (nx,ny) == (m-1,n-1): #끝점에 인접한 두개의 지점이 1개 이상의 경로를 가질 수 있기 때문
+                    visited[x][y] += 1
+                    continue
+                if visited[nx][ny] > 0:
                     visited[x][y] += visited[nx][ny]
                     continue
                 dfs(nx,ny)
                 visited[x][y] += visited[nx][ny]
+        if visited[x][y] == 0: #그 점을 다 탐색했는데 길이 없다면, 높게 만들어서 다시 방문하지 않게 만듦
+            graph[x][y] = 1e6
     
-    if visited[m-2][n-1] == 1 or visited[m-1][n-2] == 1:
-        dfs(0,0)             
+    dfs(0,0)             
     
     # print(visited)
     print(visited[0][0])
