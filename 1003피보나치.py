@@ -13,7 +13,7 @@ def main():
             return visited[n]
         
         if n >= 2:
-            visited[n] = [pibo2(n-1)[0] + pibo2(n-2)[0], pibo2(n-1)[1] + pibo2(n-2)[1]]
+            visited[n] = [pibo2(n-1)[i] + pibo2(n-2)[i] for i in range(2)] # list comprehension으로 변경
         return visited[n]
     
     for _ in range(T):
